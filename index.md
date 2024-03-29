@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+<h1 align="center">
+  <br>
+  <img src="static/logo.png" width="300"></a>
+  <br>
+  췍봇(CheckBot)
+  <br>
+</h1>
 
-You can use the [editor on GitHub](https://github.com/kookmin-sw/cap-template/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+<h4 align="center">웹사이트에 쉽게 연동가능한 맞춤형 AI 비서🤖</h4>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Who we are?
 
-### Markdown
+### 고강현
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- student ID: 20191552
+- E-mail: rhrkdgus1020@naver.com
+- Role: AI / Backend
 
-```markdown
-Syntax highlighted code block
+### 구형모
 
-# Header 1
-## Header 2
-### Header 3
+- student ID: 20191551
+- E-mail: chrisais9@naver.com
+- Role: Frontend / DevOps / PM
 
-- Bulleted
-- List
+### 곽다윗
 
-1. Numbered
-2. List
+- student ID: todo
+- E-mail: todo@naver.com
+- Role: Backend
 
-**Bold** and _Italic_ and `Code` text
+### 김은수
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kookmin-sw/cap-template/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- student ID: todo
+- E-mail: todo0@naver.com
+- Role: AI / Frontend
