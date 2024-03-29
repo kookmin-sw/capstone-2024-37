@@ -35,24 +35,24 @@ The goal of this project is to implement a chatbot that can be easily configured
 
 ### 고강현
 
-- student ID: 20191552
+- student ID: ****1552
 - E-mail: rhrkdgus1020@naver.com
-- Role: AI / Backend
+- Role: AI / Backend / TeamLead
 
 ### 구형모
 
-- student ID: 20191551
+- student ID: ****1551
 - E-mail: chrisais9@naver.com
 - Role: Frontend / DevOps / PM
 
 ### 곽다윗
 
-- student ID: todo
-- E-mail: todo@naver.com
-- Role: Backend
+- student ID: ****1550
+- E-mail: dawit0905@gmail.com
+- Role: Backend / DevOps
 
 ### 김은수
 
-- student ID: todo
-- E-mail: todo0@naver.com
-- Role: AI / Frontend
+- student ID: ****1568
+- E-mail: godong9985@gmail.com
+- Role: AI / Backend
