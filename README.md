@@ -40,7 +40,7 @@ The goal of this project is to implement a chatbot that can be easily configured
 
 ### 고강현
 
-- student ID: \*\*\*\*1552
+- student ID: \*\*\*\*1548
 - E-mail: rhrkdgus1020@naver.com
 - Role: AI / Backend / TeamLead
 
