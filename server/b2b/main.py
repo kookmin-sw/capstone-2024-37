@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-import controller
+import router
 
 app = FastAPI()
 
-app.include_router(controller.auth_google_router)
-# app.include_router(controller.router)
+app.include_router(router.auth_google_router)
+# app.include_router(router.router)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Annotated
 
 from bson import ObjectId
@@ -8,5 +9,6 @@ from database.models.object import ObjectIdPydanticAnnotation
 
 class User(BaseModel):
     _id: Annotated[ObjectId, ObjectIdPydanticAnnotation] = None
-    name: str = ''
-    google_email: str = ''
+    user_mail_address: str = ''
+    company_name: str = ''
+    create_time: datetime = ''
