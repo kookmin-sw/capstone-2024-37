@@ -13,6 +13,7 @@ class Setting(BaseSettings):
     REDIRECT_URI: str = "http://localhost:8000/auth/google"
     MONGO_DB_URI: str = os.getenv("MONGO_DB_URI")
     JWT_SECRET: str = os.getenv("JWT_SECRET")
-
+    ALGORITHM: str = "HS256"
+    JWT_TOKEN_EXPIRE_MINUTES: int = 60
 
 setting = Setting()
