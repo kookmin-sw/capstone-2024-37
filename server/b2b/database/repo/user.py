@@ -1,12 +1,13 @@
 import datetime
 
+from fastapi.encoders import jsonable_encoder
 from database import MongoClient
 from database import User
 
 
-async def find_user_by_google_email(google_email: str) -> User:
+async def find_user_by_google_email(email: str) -> User:
     user = await MongoClient.get_client().user.userinfo.find_one({
-        'google_email': google_email
+        'email': email
     })
     if not user:
         print('No User')
@@ -15,11 +16,19 @@ async def find_user_by_google_email(google_email: str) -> User:
     return user
 
 
-async def insert_user_by_google_email(google_email: str) -> User:
+async def create_user_by_google_email(user: User) -> User:
     user = User(
-        user_mail_address=google_email,
-        company_name='',
-        create_time=datetime.now()
+        email=user.email,
+        user_picture=user.user_picture,
+        name=user.name,
+        company_name=user.company_name,
+        create_time=int(datetime.datetime.now().timestamp()),
+        sign_up_flag = user.sign_up_flag
     )
 
-    await MongoClient.get_client().user.userinfo.insert_one(user)
+    user = jsonable_encoder(user)
+    new_user = await MongoClient.get_client()['user']['userinfo'].insert_one(user)
+    created_user = await MongoClient.get_client().user.userinfo.find_one({
+        "_id": new_user.inserted_id
+    })
+    return created_user
