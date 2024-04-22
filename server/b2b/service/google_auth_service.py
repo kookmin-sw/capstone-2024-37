@@ -1,32 +1,39 @@
-import jose
-
-from database.repo import find_user_by_google_email
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import jwt
+import util
+
+import database.repo
 from setting import setting
+from typing import Annotated, Union
+from database.models.user import User
 
 
-async def get_user(google_email: str) -> str:
-    current_user = await find_user_by_google_email(google_email)
+async def get_user(google_email: str) -> dict:
+    current_user = await database.repo.find_user_by_google_email(google_email)
     return current_user
 
 
-async def sign_in(google_email: str):
-    # 이미 유저가 있다면 -> 로그인
-    current_user = await find_user_by_google_email(google_email)
-    if current_user:
-        current_time = datetime.utcnow()
-        expire_time = current_time + timedelta(hours=1)
+async def create_jwt_token(data: dict, expires_delta: Union[timedelta, None] = None):
+    data['_id'] = str(data['_id'])
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, setting.JWT_SECRET, algorithm=setting.ALGORITHM)
+    return encoded_jwt
 
-        payload = {
-            "user_email_address": current_user.user_mail_address,
-            "exp": expire_time,
-            "company_name": current_user.company_name
-        }
 
-        encoded_jwt = jwt.encode(payload, setting.JWT_SECRET, algorithm="HS256")
-        print(f'encoded_jwt: {encoded_jwt}')
-        return encoded_jwt
+async def insert_userinfo(userinfo: dict):
+    ''' /login-google 요청이 들어왔을 때 구글로부터 받은 credential을 DB에 넣을때 사용 '''
+    user = await util.userinfo_to_user(userinfo)
+    created_user = await database.repo.create_user_by_google_email(user)
+    return created_user
 
-async def sign_up(google_email: str):
-    pass
+
+async def sign_up(user: User):
+    ''' 유저 정보를 추가 입력했을 때, DB에 넣는 함수 '''
+    user.sign_up_flag = True
+    created_user = await database.repo.create_user_by_google_email(user)
+    return created_user
