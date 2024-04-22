@@ -43,6 +43,11 @@ async def google_login(token: payload):
             'data': jwt_token,
             'message': ''
         }
+    elif current_user:
+        payload = {
+            'data': 'signUp',
+            'message': 'User not found'
+        }
     else:
         user = await service.insert_userinfo(userinfo)
         print(user)
