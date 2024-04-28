@@ -1,4 +1,5 @@
-from service.google_auth_service import get_user
-from service.google_auth_service import create_jwt_token
-from service.google_auth_service import sign_up
-from service.google_auth_service import insert_userinfo
+from service.auth_google_service import create_jwt_token
+from service.auth_google_service import sign_up
+from service.auth_google_service import insert_userinfo
+
+from service.user_service import get_user_in_token
