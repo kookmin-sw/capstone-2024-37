@@ -34,7 +34,7 @@ async def google_login(token: payload):
         raise HTTPException(status_code=401, detail="Token is expired")
 
     # 유저가 DB에 있는지 확인
-    current_user: dict = await service.get_user(userinfo['email'])
+    current_user: dict = await service.get_user_in_token(userinfo['email'])
 
     if current_user and current_user['sign_up_flag']:
         jwt_token_expires = timedelta(minutes=setting.JWT_TOKEN_EXPIRE_MINUTES)

@@ -8,11 +8,6 @@ from typing import Annotated, Union
 from database.models.user import User
 
 
-async def get_user(google_email: str) -> dict:
-    current_user = await database.repo.find_user_by_google_email(google_email)
-    return current_user
-
-
 async def create_jwt_token(data: dict, expires_delta: Union[timedelta, None] = None):
     data['_id'] = str(data['_id'])
     to_encode = data.copy()
