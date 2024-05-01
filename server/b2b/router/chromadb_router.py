@@ -15,6 +15,6 @@ chromadb_router = APIRouter(
 async def add_schedule_endpoint(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
     try:
         await add_db_data(data)
-        return {"message": "Schedule added successfully"}
+        return {"message": "Added successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
