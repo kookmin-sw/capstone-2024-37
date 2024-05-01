@@ -3,3 +3,5 @@ from service.auth_google_service import sign_up
 from service.auth_google_service import insert_userinfo
 
 from service.user_service import get_user_in_token
+
+from service.chroma_db_service import *
