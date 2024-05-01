@@ -20,16 +20,16 @@ load_dotenv()
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")
 
 # description: 원격 EC2 인스턴스에서 ChromaDB에 연결
-chroma_client = chromadb.HttpClient(host='127.0.0.1', port=8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+chroma_client = chromadb.HttpClient(host=CHROMA_DB_IP_ADDRESS, port=8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
 
 def check_db_heartbeat():
     chroma_client.heartbeat()
 
 # description: DB에서 검색하는 함수
-async def search_db_query(query):
+async def search_db_query(query, collection_name):
     collection = chroma_client.get_or_create_collection(
-        name="schedules",
+        name=collection_name,
         embedding_function=sentence_transformer_ef,
         metadata={"hnsw:space": "cosine"}
     )

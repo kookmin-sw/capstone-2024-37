@@ -10,6 +10,7 @@ app = FastAPI()
 app.include_router(router.auth_google_router)
 app.include_router(router.user_router)
 app.include_router(router.chromadb_router)
+app.include_router(router.chat_router)
 
 origins = [
     "*",
