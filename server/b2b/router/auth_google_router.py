@@ -8,7 +8,7 @@ from google.auth.transport import requests
 
 ''' model import '''
 from database.models.user import User
-from server.b2b.dto.payload import payload
+from dto.payload import payload
 
 ''' service import'''
 import service

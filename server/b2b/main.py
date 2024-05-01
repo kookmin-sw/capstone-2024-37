@@ -9,11 +9,12 @@ app = FastAPI()
 
 app.include_router(router.auth_google_router)
 app.include_router(router.user_router)
-# app.include_router(router.chat_router)
+app.include_router(router.chromadb_router)
 
 origins = [
     "*",
-    "http://localhost:8000",
+    "http://localhost:9009",
+    "http://localhost:8000"
 ]
 
 app.add_middleware(
@@ -25,4 +26,4 @@ app.add_middleware(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(host="0.0.0.0", port=8000, app=app)
+    uvicorn.run(host="0.0.0.0", port=9009, app=app)
