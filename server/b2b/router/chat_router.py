@@ -22,7 +22,7 @@ chat_router = APIRouter(
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-CONFIG_FILE_PATH = "backend/b2b/util/openai_config.ini"
+CONFIG_FILE_PATH = "server/b2b/util/openai_config.ini"
 config = configparser.ConfigParser()
 config.read(CONFIG_FILE_PATH)
 
