@@ -46,11 +46,10 @@ async def sign_up(login_dto: loginDto):
         # 유저가 DB에 있는지 확인
         current_user: dict = await service.get_user_in_db(google_email)
         if current_user:
-            payload = {
-                'data': 'signUp',
-                'message': 'User exist'
-            }
-            return payload
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="User Exist"
+            )
         else:
             # DB에 없으면 새로 추가
             login_dto.email = profile_data['email']
@@ -68,11 +67,10 @@ async def sign_up(login_dto: loginDto):
         # 유저가 DB에 있는지 확인
         current_user: dict = await service.get_user_in_db(login_dto.email)
         if current_user:
-            payload = {
-                'data': 'signUp',
-                'message': 'User exist'
-            }
-            return payload
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="User Exist"
+            )
         else:
             # DB에 없으면 새로 추가
             signup_user = await service.sign_up(login_dto)
