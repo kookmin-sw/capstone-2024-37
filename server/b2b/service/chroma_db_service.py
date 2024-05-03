@@ -15,9 +15,11 @@ import uuid
 import random
 from dotenv import load_dotenv
 from dto.chroma_dto import AddDataDTO
+from user_service import get_clientid_in_jwt
 
 load_dotenv()
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")
+KEYWORD_BASE_URL = os.getenv("KEYWORD_BASE_URL")
 
 # description: 원격 EC2 인스턴스에서 ChromaDB에 연결
 chroma_client = chromadb.HttpClient(host=CHROMA_DB_IP_ADDRESS, port=8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
@@ -41,17 +43,21 @@ async def search_db_query(query, collection_name):
     return result
 
 # description: DB에 저장하는 함수
-async def add_db_data(data: AddDataDTO):
+async def add_db_data(custom_data: AddDataDTO):
+    client_id = get_clientid_in_jwt(custom_data.jwt_token)
+
     collection = chroma_client.get_or_create_collection(
-        name=data.collection_name,
+        name=client_id,
         embedding_function=sentence_transformer_ef,
         metadata={"hnsw:space": "cosine"}
     )
 
-    if data.data_type == "url":
+    if custom_data.data_type == "keyword":
+        custom_data.data = KEYWORD_BASE_URL + custom_data.data
+
+    if custom_data.data_type == "url" or custom_data.data_type == "keyword":
         # url로 가져오기
-        loader = WebBaseLoader(data.data)
-        data = loader.load()
+        loader = WebBaseLoader(custom_data.data)
 
         text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
         docs = loader.load_and_split(text_splitter)
@@ -65,6 +71,7 @@ async def add_db_data(data: AddDataDTO):
                 metadatas=doc.metadata,
                 documents=doc.page_content,
             )
+        
     return True
 
 def get_chroma_client():

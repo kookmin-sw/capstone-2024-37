@@ -35,8 +35,8 @@ async def get_langchain_rag(data: PromptRequest):
                             model_name=config_normal['MODEL_NAME'],  # 모델명
                             openai_api_key=OPENAI_API_KEY  # API 키
                             )
-    question = data.prompt
-    collection = data.collection_name
+    question = data.message
+    collection = data.client_id
 
     db_data = await vectordb.search_db_query(question, collection)  # vector db에서 검색
 
