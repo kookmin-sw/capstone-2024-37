@@ -3,6 +3,7 @@ import datetime
 from fastapi.encoders import jsonable_encoder
 from database import MongoClient
 from database import User
+from dto.login_dto import loginDto
 
 
 async def find_user_by_google_email(email: str) -> User:
@@ -18,12 +19,13 @@ async def find_user_by_google_email(email: str) -> User:
 
 async def create_user_by_google_email(user: User) -> User:
     user = User(
+        type=user.type,
         email=user.email,
-        user_picture=user.user_picture,
+        picture=user.picture,
         name=user.name,
         company_name=user.company_name,
         create_time=int(datetime.datetime.now().timestamp()),
-        sign_up_flag = user.sign_up_flag
+        client_id=user.client_id
     )
 
     user = jsonable_encoder(user)

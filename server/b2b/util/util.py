@@ -1,16 +1,19 @@
+import uuid
 from jose import jwt
 from database import User
 from setting import setting
+from dto.login_dto import loginDto
 
 
-async def userinfo_to_user(userinfo) -> User:
+async def loginDto_to_user(login_dto: loginDto) -> User:
     user = User(
-        email=userinfo['email'],
-        user_picture=userinfo['picture'],
-        name=userinfo['name'],
-        company_name='',
+        type=login_dto.type,
+        email=login_dto.email,
+        picture=login_dto.picture,
+        name=login_dto.name,
+        company_name=login_dto.company_name,
         create_time=None,
-        sign_up_flag=False
+        client_id=str(uuid.uuid4()).upper().replace("-", "")
     )
     return user
 

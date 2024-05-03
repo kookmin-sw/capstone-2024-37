@@ -9,9 +9,10 @@ from database.models.object import ObjectIdPydanticAnnotation
 
 class User(BaseModel):
     _id: Annotated[ObjectId, ObjectIdPydanticAnnotation] = None
+    type: str
     email: str = ''
-    user_picture: str = ''
-    name: str = ''
+    picture: Union[str, None] = ''
+    name: Union[str, None] = ''
     company_name: str = ''
     create_time: Union[int, None]
-    sign_up_flag: bool = Field(default=False)
+    client_id: Union[str, None]
