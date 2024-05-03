@@ -12,7 +12,7 @@ chromadb_router = APIRouter(
 )
 
 @chromadb_router.post("/add-data", status_code=status.HTTP_201_CREATED)
-async def add_schedule_endpoint(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
+async def add_chroma_db_data(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
     try:
         await add_db_data(data)
         return {"message": "Added successfully"}

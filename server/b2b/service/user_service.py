@@ -11,3 +11,8 @@ async def get_user_in_db(google_email: str) -> dict:
 async def get_user_in_token(token) -> dict:
     return await util.decode_token(token)
 
+async def get_clientid_in_jwt(token) -> dict:
+    decoded_jwt = await util.decode_token(token)
+    return decoded_jwt['client_id']
+
+
