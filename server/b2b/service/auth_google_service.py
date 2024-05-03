@@ -5,6 +5,7 @@ import util
 import database.repo
 from setting import setting
 from typing import Annotated, Union
+from dto.login_dto import loginDto
 from database.models.user import User
 
 
@@ -22,13 +23,12 @@ async def create_jwt_token(data: dict, expires_delta: Union[timedelta, None] = N
 
 async def insert_userinfo(userinfo: dict):
     ''' /login-google 요청이 들어왔을 때 구글로부터 받은 credential을 DB에 넣을때 사용 '''
-    user = await util.userinfo_to_user(userinfo)
+    user = await util.loginDto_to_user(userinfo)
     created_user = await database.repo.create_user_by_google_email(user)
     return created_user
 
 
-async def sign_up(user: User):
-    ''' 유저 정보를 추가 입력했을 때, DB에 넣는 함수 '''
-    user.sign_up_flag = True
-    created_user = await database.repo.create_user_by_google_email(user)
+async def sign_up(login_dto: loginDto):
+    user: User = await util.loginDto_to_user(login_dto)
+    created_user: User = await database.repo.create_user_by_google_email(user)
     return created_user
