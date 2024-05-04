@@ -1,9 +1,9 @@
 import datetime
 
 from fastapi.encoders import jsonable_encoder
-from database import MongoClient
-from database import User
-from dto.login_dto import loginDto
+from b2b.database import MongoClient
+from b2b.database import User
+from b2b.dto.login_dto import loginDto
 
 
 async def find_user_by_google_email(email: str) -> User:

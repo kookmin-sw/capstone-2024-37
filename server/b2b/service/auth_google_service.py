@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from jose import jwt
-import util
+import b2b.util as util
 
-import database.repo
-from setting import setting
+import b2b.database.repo
+from b2b.setting import setting
 from typing import Annotated, Union
-from dto.login_dto import loginDto
-from database.models.user import User
+from b2b.dto.login_dto import loginDto
+from b2b.database.models.user import User
 
 
 async def create_jwt_token(data: dict, expires_delta: Union[timedelta, None] = None):

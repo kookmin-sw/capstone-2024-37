@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 
-import router
+import b2b.router as router
 
 from starlette.middleware.cors import CORSMiddleware
 
@@ -15,7 +15,7 @@ app.include_router(router.chat_router)
 origins = [
     "*",
     "http://localhost:9000",
-    "http://localhost:8000"
+    "https://chat.openai.com"
 ]
 
 app.add_middleware(

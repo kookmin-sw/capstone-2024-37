@@ -6,15 +6,15 @@ from fastapi import HTTPException, status
 from google.oauth2 import id_token
 
 ''' model import '''
-from database.models.user import User
-from dto.payload import payload
-from dto.login_dto import loginDto
+from b2b.database.models.user import User
+from b2b.dto.payload import payload
+from b2b.dto.login_dto import loginDto
 
 ''' service import'''
-import service
+import b2b.service as service
 
 ''' setting import '''
-from setting import setting
+from b2b.setting import setting
 
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
