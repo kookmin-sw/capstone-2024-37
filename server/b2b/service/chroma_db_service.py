@@ -15,7 +15,7 @@ import uuid
 import random
 from dotenv import load_dotenv
 from dto.chroma_dto import AddDataDTO
-from user_service import get_clientid_in_jwt
+from service.user_service import get_clientid_in_jwt
 
 load_dotenv()
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")

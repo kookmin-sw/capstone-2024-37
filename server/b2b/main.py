@@ -14,7 +14,7 @@ app.include_router(router.chat_router)
 
 origins = [
     "*",
-    "http://localhost:9009",
+    "http://localhost:9000",
     "http://localhost:8000"
 ]
 
@@ -27,4 +27,4 @@ app.add_middleware(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(host="0.0.0.0", port=9009, app=app)
+    uvicorn.run(host="0.0.0.0", port=9000, app=app)
