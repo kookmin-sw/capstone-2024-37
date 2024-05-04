@@ -1,8 +1,8 @@
 import uuid
 from jose import jwt
-from database import User
-from setting import setting
-from dto.login_dto import loginDto
+from b2b.database import User
+from b2b.setting import setting
+from b2b.dto.login_dto import loginDto
 
 
 async def loginDto_to_user(login_dto: loginDto) -> User:

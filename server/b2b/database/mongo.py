@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from setting import setting
+from b2b.setting import setting
 
 router = APIRouter()
 

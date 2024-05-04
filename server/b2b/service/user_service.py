@@ -1,10 +1,10 @@
-import database.repo
-import util
-from database import User
+from b2b.database.repo import find_user_by_google_email
+import b2b.util as util
+from b2b.database import User
 
 
 async def get_user_in_db(google_email: str) -> dict:
-    current_user = await database.repo.find_user_by_google_email(google_email)
+    current_user = await find_user_by_google_email(google_email)
     return current_user
 
 

@@ -8,10 +8,10 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from datetime import datetime
 
-from dto.openai_dto import PromptRequest
-from util import openai_prompt
+from b2b.dto.openai_dto import PromptRequest
+from b2b.util import openai_prompt
 
-import service.chroma_db_service as vectordb
+import b2b.service.chroma_db_service as vectordb
 
 
 chat_router = APIRouter(

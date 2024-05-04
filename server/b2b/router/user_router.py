@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-import service
+import b2b.service as service
 from fastapi.security import OAuth2PasswordBearer
 
 user_router = APIRouter(

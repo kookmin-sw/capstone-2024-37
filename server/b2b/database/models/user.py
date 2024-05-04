@@ -4,7 +4,7 @@ from typing import Annotated, Union
 from bson import ObjectId
 from pydantic import BaseModel, Field
 
-from database.models.object import ObjectIdPydanticAnnotation
+from b2b.database.models.object import ObjectIdPydanticAnnotation
 
 
 class User(BaseModel):

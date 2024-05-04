@@ -2,7 +2,7 @@
 import chromadb
 from chromadb.utils import embedding_functions
 from chromadb.config import Settings
-from langchain.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # FAST API
@@ -14,8 +14,8 @@ import datetime
 import uuid
 import random
 from dotenv import load_dotenv
-from dto.chroma_dto import AddDataDTO
-from service.user_service import get_clientid_in_jwt
+from b2b.dto.chroma_dto import AddDataDTO
+from b2b.service.user_service import get_clientid_in_jwt
 
 load_dotenv()
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")
