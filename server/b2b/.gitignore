@@ -1,0 +1,7 @@
+.gitignore
+*chroma
+.env
+__pycache__
+.conda
+Lib
+.idea
