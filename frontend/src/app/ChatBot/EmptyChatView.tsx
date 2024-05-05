@@ -1,6 +1,10 @@
-interface EmptyChatViewProps {}
+import { Dispatch, SetStateAction } from "react";
 
-const EmptyChatView: React.FC<EmptyChatViewProps> = ({}) => {
+interface EmptyChatViewProps {
+  setMode: Dispatch<SetStateAction<ViewType>>;
+}
+
+const EmptyChatView: React.FC<EmptyChatViewProps> = ({ setMode }) => {
   return (
     <>
       <div className="p-4 font-bold text-2xl border-b">대화</div>
@@ -14,15 +18,18 @@ const EmptyChatView: React.FC<EmptyChatViewProps> = ({}) => {
           ></path>
         </svg>
         <div>질문을 시작해보세요</div>
-        <button className="rounded-xl w-[138px] h-[44px] bg-[#facc15] mt-10 flex justify-center gap-1 items-center">
+        <button
+          className="rounded-xl w-[138px] h-[44px] bg-[#facc15] mt-10 flex justify-center gap-1 items-center"
+          onClick={() => setMode("chat")}
+        >
           <div className="text-black">새 질문하기</div>
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path
                 fill="black"
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M20.919 5.01h-18a1 1 0 0 0-.72 1.693l5.549 5.773 9.97-5.021.35.607-9.323 6.148 2.176 7.721a.998.998 0 0 0 1.463.595c.149-.086.276-.21.366-.366l9.035-15.65a1 1 0 0 0-.866-1.5"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </div>

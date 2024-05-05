@@ -1,38 +1,35 @@
 "use client";
 
 import useClickOutside from "@/hooks/useClickOutside";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import EmptyChatView from "./EmptyChatView";
 import ChatView from "./ChatView";
+import { XIcon } from "lucide-react";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState<ViewType>("chat");
-  function onClickOutside() {
-    setIsOpen(false);
-  }
-
-  const ref = useRef();
-  useClickOutside(ref, onClickOutside);
+  const [mode, setMode] = useState<ViewType>("empty");
 
   return (
     <>
       {isOpen && (
-        <div
-          ref={ref as any}
-          className="z-[999] fixed w-[390px] max-h-[690px] h-full right-8 bottom-[100px] flex flex-col rounded-xl overflow-hidden bg-white border"
-        >
-          {mode === "empty" && <EmptyChatView />}
+        <div className="z-[999] fixed w-[390px] max-h-[690px] h-full right-8 bottom-[100px] flex flex-col rounded-xl overflow-hidden bg-white border">
+          {mode === "empty" && <EmptyChatView setMode={setMode} />}
           {mode === "chat" && <ChatView />}
         </div>
       )}
       <button
-        className="w-16 h-16 rounded-full fixed right-8 bottom-8 shadow-xl border-2 border-black"
+        className="w-16 h-16 rounded-full fixed flex justify-center items-center right-8 bottom-8 shadow-xl border-2 border-black"
         onClick={() => {
           setIsOpen(!isOpen);
+          setMode("empty");
         }}
       >
-        <img src="https://capstone-2024-37.vercel.app/icons/logo.png" width={64} height={64} alt="" />
+        {isOpen ? (
+          <XIcon className="h-8 w-8" />
+        ) : (
+          <img src="https://capstone-2024-37.vercel.app/icons/logo.png" width={64} height={64} alt="" />
+        )}
       </button>
     </>
   );
