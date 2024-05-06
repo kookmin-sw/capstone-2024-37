@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Demo from "@kookmin-sw/checkbot";
 import Image from "next/image";
 
 export default function Home() {

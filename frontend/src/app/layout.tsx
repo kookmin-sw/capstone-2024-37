@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Providers from "./Provider";
 import Link from "next/link";
-import ChatBot from "./ChatBot";
+import WrappedChatBot from "./WrappedChatBot";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSans.className}>
-        <ChatBot />
+        <WrappedChatBot />
         <div className="fixed w-screen flex h-[80px] px-12 items-center justify-between backdrop-blur-sm z-[99]">
           <Link href="/" className="flex items-center justify-center gap-4">
             <Image src="/icons/logo.png" width={48} height={48} alt="" />
