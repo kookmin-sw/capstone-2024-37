@@ -1,6 +1,6 @@
 {
   "name": "@checkbot/checkbot",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -9,6 +9,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kookmin-sw/capstone-2024-37.git"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
   },
   "keywords": [],
   "author": "",
@@ -22,5 +28,12 @@
     "tailwindcss": "^3.4.3",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "lucide-react": "^0.378.0",
+    "react-type-animation": "^3.2.0",
+    "tailwind-merge": "^2.3.0"
   }
 }
