@@ -1,9 +1,9 @@
 # dev.yml
-name: dev branch auto ci process script
+name: master branch auto ci process script
 
 on: # 아래 job을 실행시킬 상황
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
             cd capstone-2024-37/server
-            git pull origin main
+            git pull origin master
             docker stop checkbot
             docker build -t checkbot .
             docker run --name checkbot -d --rm -p 9000:9000 checkbot
