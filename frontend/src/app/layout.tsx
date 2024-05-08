@@ -32,7 +32,9 @@ export default function RootLayout({
             <Link href="/login">
               <Button variant="secondary">로그인</Button>
             </Link>
-            <Button>회원가입</Button>
+            <Link href="/signup">
+              <Button>회원가입</Button>
+            </Link>
           </div>
         </div>
         <Providers>{children}</Providers>
