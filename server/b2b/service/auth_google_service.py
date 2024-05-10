@@ -24,11 +24,11 @@ async def create_jwt_token(data: dict, expires_delta: Union[timedelta, None] = N
 async def insert_userinfo(userinfo: dict):
     ''' /login-google 요청이 들어왔을 때 구글로부터 받은 credential을 DB에 넣을때 사용 '''
     user = await util.loginDto_to_user(userinfo)
-    created_user = await database.repo.create_user_by_google_email(user)
+    created_user = await b2b.database.repo.create_user_by_google_email(user)
     return created_user
 
 
 async def sign_up(login_dto: loginDto):
     user: User = await util.loginDto_to_user(login_dto)
-    created_user: User = await database.repo.create_user_by_google_email(user)
+    created_user: User = await b2b.database.repo.create_user_by_google_email(user)
     return created_user
