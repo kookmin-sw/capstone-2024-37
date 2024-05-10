@@ -1,5 +1,6 @@
 "use client";
 
+import "./global.css";
 import { useState } from "react";
 import EmptyChatView from "./ChatBot/EmptyChatView";
 import ChatView from "./ChatBot/ChatView";
@@ -19,7 +20,7 @@ const ChatBot = () => {
         </div>
       )}
       <button
-        className="w-16 h-16 rounded-full fixed flex justify-center items-center right-8 bottom-8 shadow-xl border-2 border-black"
+        className="w-16 h-16 rounded-full fixed flex justify-center items-center right-[32px] bottom-[32px] shadow-xl border-2 border-black"
         onClick={() => {
           setIsOpen(!isOpen);
           setMode("empty");
