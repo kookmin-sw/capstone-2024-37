@@ -15,5 +15,7 @@ class Setting(BaseSettings):
     JWT_SECRET: str = os.getenv("JWT_SECRET")
     ALGORITHM: str = "HS256"
     JWT_TOKEN_EXPIRE_MINUTES: int = 60
+    UPLOAD_DIR: str = os.getenv("UPLOAD_PATH")
+
 
 setting = Setting()
