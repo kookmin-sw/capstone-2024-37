@@ -4,7 +4,6 @@ import uuid
 from fastapi import APIRouter, Depends, UploadFile, HTTPException, File
 import b2b.service as service
 from fastapi.security import OAuth2PasswordBearer
-from PyPDF2 import PdfReader, PdfWriter
 from b2b.setting import setting
 
 file_router = APIRouter(
