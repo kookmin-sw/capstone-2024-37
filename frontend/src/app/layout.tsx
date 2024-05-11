@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import Providers from "./Provider";
 import Link from "next/link";
 import WrappedChatBot from "./WrappedChatBot";
+import { useState } from "react";
+import LoginStatus from "@/components/LoginStatus";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -28,14 +30,7 @@ export default function RootLayout({
             <Image src="/icons/logo.png" width={48} height={48} alt="" />
             <div className="bold text-3xl">췍봇</div>
           </Link>
-          <div className="flex justify-center items-center gap-2">
-            <Link href="/login">
-              <Button variant="secondary">로그인</Button>
-            </Link>
-            <Link href="/signup">
-              <Button>회원가입</Button>
-            </Link>
-          </div>
+          <LoginStatus />
         </div>
         <Providers>{children}</Providers>
       </body>

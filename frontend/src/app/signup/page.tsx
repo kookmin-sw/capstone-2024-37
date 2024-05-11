@@ -77,10 +77,18 @@ export default function SignupPage() {
           password: inputPassword,
         }),
       });
-      const data = await res.json();
-      console.log(data);
+      const response = await res.json();
+      if (response.message === "Success") {
+        window.location.href = "/login";
+      } else if (response.detail === "User Exist") {
+        alert("이미 회원가입된 아이디입니다.");
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+      console.log(response);
     } catch (e) {
       console.error(e);
+      alert("회원가입 도중 오류가 발생했습니다.");
     }
   }
 
