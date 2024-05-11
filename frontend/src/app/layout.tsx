@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_KR } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Providers from "./Provider";
+import Link from "next/link";
+import WrappedChatBot from "./WrappedChatBot";
+import { useState } from "react";
+import LoginStatus from "@/components/LoginStatus";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -19,17 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSans.className}>
+        <WrappedChatBot />
         <div className="fixed w-screen flex h-[80px] px-12 items-center justify-between backdrop-blur-sm z-[99]">
-          <div className="flex items-center justify-center gap-4">
+          <Link href="/" className="flex items-center justify-center gap-4">
             <Image src="/icons/logo.png" width={48} height={48} alt="" />
             <div className="bold text-3xl">췍봇</div>
-          </div>
-          <div className="flex justify-center items-center gap-2">
-            <Button variant="secondary">로그인</Button>
-            <Button>회원가입</Button>
-          </div>
+          </Link>
+          <LoginStatus />
         </div>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
