@@ -11,7 +11,6 @@ async def loginDto_to_user(login_dto: loginDto) -> User:
         email=login_dto.email,
         picture=login_dto.picture,
         name=login_dto.name,
-        company_name=login_dto.company_name,
         create_time=None,
         client_id=str(uuid.uuid4()).upper().replace("-", "")
     )

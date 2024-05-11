@@ -1,9 +1,7 @@
 from datetime import timedelta
-import google.auth.exceptions
 import requests
 from fastapi import APIRouter, Depends, Response
 from fastapi import HTTPException, status
-from google.oauth2 import id_token
 
 ''' model import '''
 from b2b.database.models.user import User
