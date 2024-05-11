@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, UploadFile
+from fastapi import APIRouter, Depends, UploadFile, HTTPException
 import b2b.service as service
 from fastapi.security import OAuth2PasswordBearer
 
@@ -13,4 +13,6 @@ file_router = APIRouter(
 
 @file_router.post("upload-pdf")
 async def upload_pdf(file: UploadFile):
+    if file.content_type != "application/pdf":
+        raise HTTPException(400, detail="Invalid document type")
     return file.filename
