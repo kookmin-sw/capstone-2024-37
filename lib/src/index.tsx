@@ -10,6 +10,7 @@ import { ViewType } from "./ChatBot/type";
 export interface ChatBotProps {
   clientId: string;
 }
+
 const ChatBot: React.FC<ChatBotProps> = ({ clientId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<ViewType>("empty");
@@ -19,7 +20,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ clientId }) => {
       {isOpen && (
         <div className="z-[999] fixed w-[390px] max-h-[690px] h-full right-8 bottom-[100px] flex flex-col rounded-xl overflow-hidden bg-white border">
           {mode === "empty" && <EmptyChatView setMode={setMode} />}
-          {mode === "chat" && <ChatView />}
+          {mode === "chat" && <ChatView clientId={clientId} />}
         </div>
       )}
       <button
