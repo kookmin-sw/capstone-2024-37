@@ -26,10 +26,15 @@ export default function RootLayout({
       <body className={notoSans.className}>
         <WrappedChatBot />
         <div className="fixed w-screen flex h-[80px] px-12 items-center justify-between backdrop-blur-sm z-[99]">
-          <Link href="/" className="flex items-center justify-center gap-4">
-            <Image src="/icons/logo.png" width={48} height={48} alt="" />
-            <div className="bold text-3xl">췍봇</div>
-          </Link>
+          <div className="flex gap-10 justify-center items-center">
+            <Link href="/" className="flex items-center justify-center gap-4">
+              <Image src="/icons/logo.png" width={48} height={48} alt="" />
+              <div className="bold text-3xl">췍봇</div>
+            </Link>
+            <Link className="text-lg hover:opacity-50" href="/howto">
+              사용법
+            </Link>
+          </div>
           <LoginStatus />
         </div>
         <Providers>{children}</Providers>

@@ -7,7 +7,6 @@ import GoogleLoginButton from "../login/GoogleLoginButton";
 import Link from "next/link";
 import { API_SERVER } from "@/config";
 import { ChangeEvent, useEffect, useState } from "react";
-import test from "node:test";
 
 export default function SignupPage() {
   const [inputEmail, setInputEmail] = useState("");
@@ -32,8 +31,7 @@ export default function SignupPage() {
   };
 
   useEffect(() => {
-    const isValid =
-      inputPassword === inputVerifyPassword && inputVerifyPassword.length !== 0;
+    const isValid = inputPassword === inputVerifyPassword && inputVerifyPassword.length !== 0;
     setIsVerify(isValid);
   }, [inputPassword, inputVerifyPassword]);
 
@@ -97,18 +95,8 @@ export default function SignupPage() {
       <div className="flex flex-col">
         <div className="font-bold">회원가입</div>
         <div className="mt-4 flex flex-col gap-4">
-          <Input
-            onChange={onChangeEmail}
-            value={inputEmail}
-            type="email"
-            placeholder="이메일"
-          />
-          <Input
-            onChange={onChangePassword}
-            value={inputPassword}
-            type="password"
-            placeholder="비밀번호"
-          />
+          <Input onChange={onChangeEmail} value={inputEmail} type="email" placeholder="이메일" />
+          <Input onChange={onChangePassword} value={inputPassword} type="password" placeholder="비밀번호" />
           <div className="flex flex-col items-center">
             <Input
               onChange={onChangeVerifyPassword}
@@ -120,12 +108,7 @@ export default function SignupPage() {
               <div className="text-xs mt-2">비밀번호가 일치하지 않습니다.</div>
             )}
           </div>
-          <Input
-            onChange={onChangeCompanyName}
-            value={inputCompanyName}
-            type="companyname"
-            placeholder="회사 이름"
-          />
+          <Input onChange={onChangeCompanyName} value={inputCompanyName} type="companyname" placeholder="회사 이름" />
           <Button onClick={onSignUp}>회원가입 하기</Button>
         </div>
         <div className="flex items-center mt-4 justify-around">
