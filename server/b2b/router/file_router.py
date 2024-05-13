@@ -30,5 +30,9 @@ async def upload_pdf(file: UploadFile = File(...)):
 
 @file_router.post("/delete-pdf")
 async def upload_pdf(filename: RemoveFileDto):
-    os.remove(os.path.join(setting.UPLOAD_DIR, filename.filename))
-    return {f"message: remove {filename.filename}"}
+    file_path = os.path.join(setting.UPLOAD_DIR, filename.filename)
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+        return {f"message: remove {filename.filename}"}
+    else:
+        return {"message: file not found"}
