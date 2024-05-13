@@ -17,11 +17,11 @@ const LoginStatus: React.FC = () => {
   const [user, setUser] = useAtom(userAtom);
 
   const onLogout = () => {
-    setUser({ email: null, token: null });
+    setUser(null);
     localStorage.removeItem("token");
   };
 
-  if (!user.token) {
+  if (!user?.token) {
     return (
       <div className="flex justify-center items-center gap-2">
         <Link href="/login">
@@ -39,15 +39,11 @@ const LoginStatus: React.FC = () => {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="mx-2">
-            <AvatarFallback>
-              {user.email ? user.email[0].toUpperCase() : "U"}
-            </AvatarFallback>
+            <AvatarFallback>{user.email ? user.email[0].toUpperCase() : "U"}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onSelect={() => console.log("Profile selected")}>
-            Profile
-          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => console.log("Profile selected")}>Profile</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={onLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
