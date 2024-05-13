@@ -4,7 +4,7 @@ import ChatBot from "@checkbot/checkbot";
 import "@checkbot/checkbot/dist/index.css";
 
 const WrappedChatBot = () => {
-  return <ChatBot />;
+  return <ChatBot clientId={"dd"} />;
 };
 
 export default WrappedChatBot;
