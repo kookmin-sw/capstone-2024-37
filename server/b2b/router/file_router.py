@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, UploadFile, HTTPException, File
 import b2b.service as service
 from fastapi.security import OAuth2PasswordBearer
 from b2b.setting import setting
+from b2b.dto import RemoveFileDto
 
 file_router = APIRouter(
     prefix="/file",
@@ -26,3 +27,8 @@ async def upload_pdf(file: UploadFile = File(...)):
         fp.write(content)  # 서버 로컬 스토리지에 이미지 저장 (쓰기)
 
     return {"filename": filename}
+
+@file_router.post("/delete-pdf")
+async def upload_pdf(filename: RemoveFileDto):
+    os.remove(filename.filename)
+    return {"message": "remove pdf"}

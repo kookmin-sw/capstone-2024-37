@@ -1,9 +1,20 @@
 # VECTOR DB
 import chromadb
+from langchain_community.vectorstores import Chroma
 from chromadb.utils import embedding_functions
 from chromadb.config import Settings
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.agents.agent_toolkits import create_retriever_tool
+from langchain.agents.openai_functions_agent.base import OpenAIFunctionsAgent
+from langchain.schema.messages import SystemMessage
+from langchain.prompts import MessagesPlaceholder
+from langchain_community.chat_models import ChatOpenAI
+from langchain.agents import AgentExecutor
+from langchain_community.document_loaders import PyPDFLoader
+from langchain.agents.openai_functions_agent.agent_token_buffer_memory import (
+        AgentTokenBufferMemory,
+    )
 
 # FAST API
 from fastapi import Depends
@@ -16,6 +27,7 @@ import random
 from dotenv import load_dotenv
 from b2b.dto.chroma_dto import AddDataDTO
 from b2b.service.user_service import get_clientid_in_jwt
+from b2b.setting import setting
 
 load_dotenv()
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")
@@ -44,7 +56,7 @@ async def search_db_query(query, collection_name):
 
 # description: DB에 저장하는 함수
 async def add_db_data(custom_data: AddDataDTO):
-    client_id = get_clientid_in_jwt(custom_data.jwt_token)
+    client_id = await get_clientid_in_jwt(custom_data.jwt_token)
 
     collection = chroma_client.get_or_create_collection(
         name=client_id,
@@ -56,23 +68,31 @@ async def add_db_data(custom_data: AddDataDTO):
         custom_data.data = KEYWORD_BASE_URL + custom_data.data
 
     if custom_data.data_type == "url" or custom_data.data_type == "keyword":
-        # url로 가져오기
         loader = WebBaseLoader(custom_data.data)
+    elif custom_data.data_type == "pdf":
+        filename = os.path.join(setting.UPLOAD_DIR, custom_data.data)
+        loader = PyPDFLoader(filename)
 
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
-        docs = loader.load_and_split(text_splitter)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
+    docs = loader.load_and_split(text_splitter)
 
-        for i, doc in enumerate(docs):
-            doc.metadata["chunk_id"] = i  # Chunk ID 추가
-            # 무작위로 임의의 페이지 번호를 삽입합니다.
-            doc.metadata["page_number"] = random.randint(0, 5)
-            collection.add(
-                ids=[str(uuid.uuid1())],
-                metadatas=doc.metadata,
-                documents=doc.page_content,
-            )
-        
+    chromadb_input_data(collection, docs)
+    
+    if custom_data.data_type == "pdf":
+        os.remove(filename)
+
     return True
+
+def chromadb_input_data(collection, docs):
+    for i, doc in enumerate(docs):
+        doc.metadata["chunk_id"] = i  # Chunk ID 추가
+        # 무작위로 임의의 페이지 번호를 삽입합니다.
+        doc.metadata["page_number"] = random.randint(0, 5)
+        collection.add(
+            ids=[str(uuid.uuid1())],
+            metadatas=doc.metadata,
+            documents=doc.page_content,
+        )
 
 def get_chroma_client():
     return chroma_client
