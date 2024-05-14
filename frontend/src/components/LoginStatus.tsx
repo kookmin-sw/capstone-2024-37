@@ -38,17 +38,21 @@ const LoginStatus: React.FC = () => {
     <div className="flex items-center">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar className="mx-2">
-            <AvatarFallback>{user.email ? user.email[0].toUpperCase() : "U"}</AvatarFallback>
+          <Avatar>
+            <AvatarFallback>
+              {user.email ? user.email[0].toUpperCase() : "U"}
+            </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onSelect={() => console.log("Profile selected")}>Profile</DropdownMenuItem>
+          <Link href="/myinfo">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={onLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {user.email}
+      <div className="ml-3">{user.email}</div>
     </div>
   );
 };
