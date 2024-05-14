@@ -8,6 +8,7 @@ import Link from "next/link";
 import WrappedChatBot from "./WrappedChatBot";
 import { useState } from "react";
 import LoginStatus from "@/components/LoginStatus";
+import MyPageControl from "@/components/MyPageControl";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -31,11 +32,17 @@ export default function RootLayout({
               <Image src="/icons/logo.png" width={48} height={48} alt="" />
               <div className="bold text-3xl">췍봇</div>
             </Link>
+          </div>
+          <div className="flex gap-10 justify-center items-center">
+            <Link className="text-lg hover:opacity-50" href="/serviceplan">
+              플랜 안내
+            </Link>
             <Link className="text-lg hover:opacity-50" href="/howto">
               사용법
             </Link>
+            <MyPageControl />
+            <LoginStatus />
           </div>
-          <LoginStatus />
         </div>
         <Providers>{children}</Providers>
       </body>
