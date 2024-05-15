@@ -9,6 +9,7 @@ import WrappedChatBot from "./WrappedChatBot";
 import { useState } from "react";
 import LoginStatus from "@/components/LoginStatus";
 import MyPageControl from "@/components/MyPageControl";
+import { Toaster } from "@/components/ui/toaster";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSans.className}>
+        <Toaster />
         <WrappedChatBot />
         <div className="fixed w-screen flex h-[80px] px-12 items-center justify-between backdrop-blur-sm z-[99]">
           <div className="flex gap-10 justify-center items-center">

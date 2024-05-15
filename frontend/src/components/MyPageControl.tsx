@@ -7,13 +7,15 @@ import Link from "next/link";
 const MyPageControl = () => {
   const [user] = useAtom(userAtom);
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <div>
-      {user?.token && (
-        <Link className="text-lg hover:opacity-50" href="/mypage">
-          내 프로젝트
-        </Link>
-      )}
+      <Link className="text-lg hover:opacity-50 font-semibold" href="/bot">
+        봇 수정하기
+      </Link>
     </div>
   );
 };
