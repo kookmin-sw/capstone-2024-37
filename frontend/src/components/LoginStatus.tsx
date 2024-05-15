@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { useAtom } from "jotai";
-import { userAtom } from "@/atoms/userAtom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +10,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import useUser from "@/hooks/useUser";
 
 const LoginStatus: React.FC = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const { user, setUser } = useUser();
 
   const onLogout = () => {
     setUser(null);

@@ -7,11 +7,10 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { API_SERVER } from "@/config";
-import { useAtom } from "jotai";
-import { userAtom } from "@/atoms/userAtom";
+import useUser from "@/hooks/useUser";
 
 export default function LoginPage() {
-  const [user, setUser] = useAtom(userAtom);
+  const { user, setUser } = useUser();
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
