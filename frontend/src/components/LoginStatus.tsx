@@ -13,14 +13,14 @@ import {
 import useUser from "@/hooks/useUser";
 
 const LoginStatus: React.FC = () => {
-  const { user, setUser } = useUser();
+  const { user, setUser, isLoggedIn } = useUser();
 
   const onLogout = () => {
     setUser(null);
     localStorage.removeItem("token");
   };
 
-  if (!user?.token) {
+  if (!isLoggedIn) {
     return (
       <div className="flex justify-center items-center gap-2">
         <Link href="/login">
@@ -38,9 +38,7 @@ const LoginStatus: React.FC = () => {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            <AvatarFallback>
-              {user.email ? user.email[0].toUpperCase() : "U"}
-            </AvatarFallback>
+            <AvatarFallback>{user?.email ? user.email[0].toUpperCase() : "U"}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -51,7 +49,7 @@ const LoginStatus: React.FC = () => {
           <DropdownMenuItem onSelect={onLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className="ml-3">{user.email}</div>
+      <div className="ml-3">{user?.email}</div>
     </div>
   );
 };

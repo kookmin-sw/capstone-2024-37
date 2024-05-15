@@ -9,11 +9,11 @@ import useUser from "@/hooks/useUser";
 import { useState } from "react";
 
 export default function BotPage() {
-  const { user } = useUser();
+  const { user, isLoggedIn } = useUser();
   const { toast } = useToast();
   const [url, setUrl] = useState("");
 
-  if (!user) {
+  if (!isLoggedIn) {
     return (
       <div className="flex min-h-screen flex-col items-center px-12 pt-[160px]">
         <div>로그인후 이용해주세요.</div>
