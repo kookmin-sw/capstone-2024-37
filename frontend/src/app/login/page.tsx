@@ -41,7 +41,7 @@ export default function LoginPage() {
       const response = await res.json();
 
       if (response.data && response.message !== "User not found") {
-        setUser({ token: response.data });
+        setUser({ token: response.data, email: inputEmail });
         window.location.href = "/";
         console.log("토큰", response.data);
         console.log("로그인 성공", response.message);
@@ -59,8 +59,16 @@ export default function LoginPage() {
       <div className="flex flex-col">
         <div className="font-bold">로그인</div>
         <div className="mt-4 flex flex-col gap-4">
-          <Input onChange={onChangeEmail} type="email" placeholder="이메일"></Input>
-          <Input onChange={onChangePassword} type="password" placeholder="비밀번호"></Input>
+          <Input
+            onChange={onChangeEmail}
+            type="email"
+            placeholder="이메일"
+          ></Input>
+          <Input
+            onChange={onChangePassword}
+            type="password"
+            placeholder="비밀번호"
+          ></Input>
           <Button onClick={onSignIn}>로그인 하기</Button>
           <div className="flex items-center justify-around">
             <div className="text-xs">아직 회원이 아니신가요? </div>

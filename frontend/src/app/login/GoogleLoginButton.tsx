@@ -1,13 +1,12 @@
 "use client";
 
-import { userAtom } from "@/atoms/userAtom";
 import { API_SERVER } from "@/config";
+import useUser from "@/hooks/useUser";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useAtom } from "jotai";
 import Image from "next/image";
 
 const GoogleLoginButton = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const { user, setUser } = useUser();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -23,6 +22,34 @@ const GoogleLoginButton = () => {
     },
   });
 
+  async function onSignUp(tokenRes) {
+    try {
+      const res = await fetch(`${API_SERVER}/auth/sign-up`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: "google",
+          token: tokenRes,
+        }),
+      });
+      const response = await res.json();
+      if (response.message === "Success") {
+        return await sendToken(tokenRes);
+      } else if (response.detail === "User Exist") {
+        alert("이미 회원가입된 아이디입니다.");
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+      alert("회원가입 도중 오류가 발생했습니다.");
+    }
+  }
+
   async function sendToken(tokenRes) {
     try {
       const res = await fetch(`${API_SERVER}/auth/sign-in`, {
@@ -37,8 +64,12 @@ const GoogleLoginButton = () => {
         }),
       });
       const response = await res.json();
-      console.log(response);
-      return response;
+      if (response.message === "User not found") {
+        console.log(response);
+        return await onSignUp(tokenRes);
+      } else {
+        return response.data;
+      }
     } catch (e) {
       console.error(e);
     }
