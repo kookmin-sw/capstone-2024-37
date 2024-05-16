@@ -1,6 +1,7 @@
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
+const codeInstall = `npm install @checkbot/checkbot`;
 const codeUse = `"use client";
 
 import ChatBot from "@checkbot/checkbot";
@@ -19,7 +20,7 @@ export default function HowtoPage() {
         <div className="font-bold text-3xl text-start">사용법</div>
         <div>
           <div>1. 라이브러리 설치하기</div>
-          <SyntaxHighlighter style={docco}>npm install @checkbot/checkbot</SyntaxHighlighter>
+          <SyntaxHighlighter style={docco}>{codeInstall}</SyntaxHighlighter>
         </div>
         <div>
           <div>2. 챗봇 코드에서 사용하기 (Next.js 기준)</div>

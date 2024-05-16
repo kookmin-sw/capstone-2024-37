@@ -36,20 +36,22 @@ const LoginStatus: React.FC = () => {
   return (
     <div className="flex items-center">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger className="flex justify-center items-center">
           <Avatar>
             <AvatarFallback>{user?.email ? user.email[0].toUpperCase() : "U"}</AvatarFallback>
           </Avatar>
+          <div className="ml-3">{user?.email}</div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <Link href="/myinfo">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-          </Link>
+        <DropdownMenuContent className="border py-2 px-1 w-[150px]">
+          <DropdownMenuItem className="hover:bg-slate-200 w-full py-0.5 px-2">
+            <Link href="/myinfo">Profile</Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={onLogout}>Logout</DropdownMenuItem>
+          <DropdownMenuItem className="hover:bg-slate-200 w-full py-0.5 px-2 cursor-pointer" onSelect={onLogout}>
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className="ml-3">{user?.email}</div>
     </div>
   );
 };

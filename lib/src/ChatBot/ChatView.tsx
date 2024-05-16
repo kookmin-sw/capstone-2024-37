@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { Loader2, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { API_SERVER } from "../config";
@@ -12,6 +12,7 @@ interface ChatViewProps {
 const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
   const [chat, setChat] = useState({ question: "", answer: "" });
   const [inputQuestion, setInputQuestion] = useState("");
+  const [showThumb, setShowThumb] = useState(false);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputQuestion(e.target.value);
@@ -19,6 +20,7 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
 
   const onReset = (e: any) => {
     setChat({ question: "", answer: "" });
+    setShowThumb(false);
   };
 
   async function onQuestion(e: any) {
@@ -68,7 +70,13 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
           {chat.answer.length > 0 && (
             <div className="p-4 flex-col flex">
               <div className="font-bold text-xl">췍봇:</div>
-              <TypeAnimation sequence={[chat.answer]} />
+              <TypeAnimation sequence={[chat.answer, () => setShowThumb(true)]} />
+              {showThumb && (
+                <div className="mt-2.5 flex gap-2 items-center">
+                  <ThumbsUpIcon className="cursor-pointer hover:opacity-50" size={14} />
+                  <ThumbsDownIcon className="cursor-pointer hover:opacity-50" size={14} />
+                </div>
+              )}
             </div>
           )}
         </div>
