@@ -15,7 +15,7 @@ export default function BotPage() {
   const { user, isLoggedIn } = useUser();
   const { toast } = useToast();
   const [url, setUrl] = useState("");
-  const [keywords, setKeywords] = useState(["기업", "판교", "초록색"]);
+  const [keywords, setKeywords] = useState<string[]>([]);
   const [file, setFile] = useState(null);
 
   if (!isLoggedIn) {
@@ -29,27 +29,30 @@ export default function BotPage() {
   async function onUrl() {
     if (!url || url.length === 0) return;
 
-    const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        jwt_token: user?.token,
-        data_type: "url",
-        data: url,
-      }),
-    });
-
-    if (res.ok) {
-      toast({
-        title: "봇 수정하기",
-        description: "✅ URL이 성공적으로 학습되었습니다",
+    try {
+      const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jwt_token: user?.token,
+          data_type: "url",
+          data: url,
+        }),
       });
-      return;
-    }
 
+      if (res.ok) {
+        toast({
+          title: "봇 수정하기",
+          description: "✅ URL을 성공적으로 학습하였습니다",
+        });
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
     toast({
       title: "봇 수정하기",
       description: "❌ 문제가 생겼어요",
@@ -61,27 +64,30 @@ export default function BotPage() {
       return;
     }
     const joinedKeywords = keywords.join();
-    const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        jwt_token: user?.token,
-        data_type: "keyword",
-        data: joinedKeywords,
-      }),
-    });
-
-    if (res.ok) {
-      toast({
-        title: "봇 수정하기",
-        description: "✅ 키워드가 성공적으로 학습되었습니다",
+    try {
+      const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jwt_token: user?.token,
+          data_type: "keyword",
+          data: joinedKeywords,
+        }),
       });
-      return;
-    }
 
+      if (res.ok) {
+        toast({
+          title: "봇 수정하기",
+          description: "✅ 키워드를 성공적으로 학습하였습니다",
+        });
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
     toast({
       title: "봇 수정하기",
       description: "❌ 문제가 생겼어요",
@@ -92,8 +98,47 @@ export default function BotPage() {
     setFile(event.target.files[0]);
   };
 
-  function onFile() {
+  async function onFile() {
     if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      toast({
+        title: "봇 수정하기",
+        description: "⏳ 파일 업로드 중...",
+      });
+      const resUpload = await fetch(`${API_SERVER}/file/upload-pdf`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (resUpload.ok) {
+        const filename = (await resUpload.json()).filename;
+        const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+          method: "POST",
+          body: JSON.stringify({
+            jwt_token: user?.token,
+            data_type: "pdf",
+            data: filename,
+          }),
+        });
+        if (res.ok) {
+          toast({
+            title: "봇 수정하기",
+            description: "✅ 파일을 성공적으로 학습하였습니다",
+          });
+          return;
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    toast({
+      title: "봇 수정하기",
+      description: "❌ 문제가 생겼어요",
+    });
   }
 
   function removeKeyword(keyword: string) {
@@ -128,8 +173,8 @@ export default function BotPage() {
       </div>
       <div className="mt-10 font-bold text-xl w-full max-w-sm">파일로 학습하기</div>
       <div className="mt-2 grid w-full max-w-sm items-center gap-2">
-        <Label htmlFor="pdffile">파일을 선택해주세요</Label>
-        <Input id="pdffile" type="file" />
+        <Label htmlFor="pdffile">파일을 선택해주세요 (PDF만 지원함)</Label>
+        <Input id="pdffile" type="file" accept=".pdf" onChange={handleFileChange} />
         <Button onClick={onFile}>제출</Button>
       </div>
     </div>
