@@ -37,9 +37,6 @@ export default function RootLayout({
             </Link>
           </div>
           <div className="flex gap-10 justify-center items-center">
-            <Link className="text-lg hover:opacity-50" href="/serviceplan">
-              플랜 안내
-            </Link>
             <Link className="text-lg hover:opacity-50" href="/howto">
               사용법
             </Link>
