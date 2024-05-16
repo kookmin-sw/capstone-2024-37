@@ -30,7 +30,7 @@ export default function BotPage() {
     if (!url || url.length === 0) return;
 
     try {
-      const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+      const res = await fetch(`${API_SERVER}/chromadb/add-data-url`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -65,7 +65,7 @@ export default function BotPage() {
     }
     const joinedKeywords = keywords.join();
     try {
-      const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+      const res = await fetch(`${API_SERVER}/chromadb/add-data-keyword`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -116,7 +116,7 @@ export default function BotPage() {
 
       if (resUpload.ok) {
         const filename = (await resUpload.json()).filename;
-        const res = await fetch(`${API_SERVER}/chromadb/add-data`, {
+        const res = await fetch(`${API_SERVER}/chromadb/add-data-pdf`, {
           method: "POST",
           body: JSON.stringify({
             jwt_token: user?.token,
