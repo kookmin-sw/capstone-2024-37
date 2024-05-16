@@ -4,17 +4,33 @@ import os
 from fastapi import APIRouter, HTTPException, Depends, status
 
 from b2b.dto.chroma_dto import AddDataDTO
-from b2b.service.chroma_db_service import add_db_data, get_chroma_client
+from b2b.service.chroma_db_service import *
 
 chromadb_router = APIRouter(
     prefix="/chromadb",
     tags=["chromadb"]
 )
 
-@chromadb_router.post("/add-data", status_code=status.HTTP_201_CREATED)
-async def add_chroma_db_data(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
+@chromadb_router.post("/add-data-url", status_code=status.HTTP_201_CREATED)
+async def add_chroma_db_data_url(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
     try:
-        await add_db_data(data)
-        return {"message": "Added successfully"}
+        await add_db_data_url(data)
+        return {"message": "Added url successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@chromadb_router.post("/add-data-pdf", status_code=status.HTTP_201_CREATED)
+async def add_chroma_db_data_pdf(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
+    try:
+        await add_db_data_pdf(data)
+        return {"message": "Added pdf successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@chromadb_router.post("/add-data-keyword", status_code=status.HTTP_201_CREATED)
+async def add_chroma_db_data_keyword(data: AddDataDTO, chroma_client=Depends(get_chroma_client)):
+    try:
+        await add_db_data_keyword(data)
+        return {"message": "Added keyword successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
