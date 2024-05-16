@@ -5,13 +5,16 @@ import { API_SERVER } from "../config";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 
-const ChatView = () => {
+interface ChatViewProps {
+  clientId: string;
+}
+
+const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
   const [chat, setChat] = useState({ question: "", answer: "" });
   const [inputQuestion, setInputQuestion] = useState("");
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value.trim();
-    setInputQuestion(text);
+    setInputQuestion(e.target.value);
   };
 
   const onReset = (e: any) => {
@@ -19,12 +22,14 @@ const ChatView = () => {
   };
 
   async function onQuestion(e: any) {
+    const trimmedQuestion = inputQuestion.trim();
     if (inputQuestion.length === 0) {
       return;
     }
+
     setChat({
       answer: "",
-      question: inputQuestion,
+      question: trimmedQuestion,
     });
     try {
       const res = await fetch(`${API_SERVER}/chat/chatbot`, {
@@ -34,8 +39,8 @@ const ChatView = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          client_id: "gootest",
-          message: inputQuestion,
+          client_id: clientId,
+          message: trimmedQuestion,
         }),
       });
       const data = await res.text();

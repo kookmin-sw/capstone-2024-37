@@ -8,6 +8,9 @@ import Link from "next/link";
 import WrappedChatBot from "./WrappedChatBot";
 import { useState } from "react";
 import LoginStatus from "@/components/LoginStatus";
+import MyPageControl from "@/components/MyPageControl";
+import { Toaster } from "@/components/ui/toaster";
+import { DialogPortal } from "@/components/ui/dialog";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -24,13 +27,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSans.className}>
+        <Toaster />
         <WrappedChatBot />
         <div className="fixed w-screen flex h-[80px] px-12 items-center justify-between backdrop-blur-sm z-[99]">
-          <Link href="/" className="flex items-center justify-center gap-4">
-            <Image src="/icons/logo.png" width={48} height={48} alt="" />
-            <div className="bold text-3xl">췍봇</div>
-          </Link>
-          <LoginStatus />
+          <div className="flex gap-10 justify-center items-center">
+            <Link href="/" className="flex items-center justify-center gap-4">
+              <Image src="/icons/logo.png" width={48} height={48} alt="" />
+              <div className="bold text-3xl">췍봇</div>
+            </Link>
+          </div>
+          <div className="flex gap-10 justify-center items-center">
+            <Link className="text-lg hover:opacity-50" href="/serviceplan">
+              플랜 안내
+            </Link>
+            <Link className="text-lg hover:opacity-50" href="/howto">
+              사용법
+            </Link>
+            <MyPageControl />
+            <LoginStatus />
+          </div>
         </div>
         <Providers>{children}</Providers>
       </body>

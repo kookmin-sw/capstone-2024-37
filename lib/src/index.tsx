@@ -7,7 +7,11 @@ import ChatView from "./ChatBot/ChatView";
 import { XIcon } from "lucide-react";
 import { ViewType } from "./ChatBot/type";
 
-const ChatBot = () => {
+export interface ChatBotProps {
+  clientId: string;
+}
+
+const ChatBot: React.FC<ChatBotProps> = ({ clientId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<ViewType>("empty");
 
@@ -16,7 +20,7 @@ const ChatBot = () => {
       {isOpen && (
         <div className="z-[999] fixed w-[390px] max-h-[690px] h-full right-8 bottom-[100px] flex flex-col rounded-xl overflow-hidden bg-white border">
           {mode === "empty" && <EmptyChatView setMode={setMode} />}
-          {mode === "chat" && <ChatView />}
+          {mode === "chat" && <ChatView clientId={clientId} />}
         </div>
       )}
       <button

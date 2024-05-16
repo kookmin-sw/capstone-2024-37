@@ -1,11 +1,10 @@
 import { atomWithStorage } from "jotai/utils";
 
 export interface UserState {
-  email: string | null;
-  token: string | null;
+  token: string;
+  email?: string;
+  clientID?: string;
+  company?: string;
 }
 
-export const userAtom = atomWithStorage<UserState>("user", {
-  email: null,
-  token: null,
-});
+export const userAtom = atomWithStorage<UserState | null>("user", null);

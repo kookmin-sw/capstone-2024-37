@@ -7,11 +7,10 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import { API_SERVER } from "@/config";
-import { useAtom } from "jotai";
-import { userAtom } from "@/atoms/userAtom";
+import useUser from "@/hooks/useUser";
 
 export default function LoginPage() {
-  const [user, setUser] = useAtom(userAtom);
+  const { user, setUser } = useUser();
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
@@ -40,18 +39,41 @@ export default function LoginPage() {
         }),
       });
       const response = await res.json();
+
       if (response.data && response.message !== "User not found") {
-        setUser({ email: inputEmail, token: response.data });
-        window.location.href = "/";
-        console.log("로그인 성공", response.message);
+        setUser({ token: response.data });
+        await getUserInfo(response.data);
       } else {
         console.error("로그인 실패", response.message);
         alert("로그인 실패");
-        setUser({ email: null, token: null });
       }
     } catch (e) {
       console.error(e);
-      setUser({ email: null, token: null });
+    }
+  }
+
+  async function getUserInfo(userToken) {
+    try {
+      const res = await fetch(`${API_SERVER}/user/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+          "Content-type": "application/json",
+        },
+      });
+      const userInfo = await res.json();
+      setUser({
+        token: userToken,
+        email: userInfo.email,
+        clientID: userInfo.client_id,
+        company: userInfo.company_name,
+      });
+      window.location.href = "/";
+      console.log("토큰", userToken);
+      console.log("로그인 성공");
+    } catch (e) {
+      console.error("로그인 실패");
+      alert("로그인 실패");
     }
   }
 
@@ -60,16 +82,8 @@ export default function LoginPage() {
       <div className="flex flex-col">
         <div className="font-bold">로그인</div>
         <div className="mt-4 flex flex-col gap-4">
-          <Input
-            onChange={onChangeEmail}
-            type="email"
-            placeholder="이메일"
-          ></Input>
-          <Input
-            onChange={onChangePassword}
-            type="password"
-            placeholder="비밀번호"
-          ></Input>
+          <Input onChange={onChangeEmail} type="email" placeholder="이메일"></Input>
+          <Input onChange={onChangePassword} type="password" placeholder="비밀번호"></Input>
           <Button onClick={onSignIn}>로그인 하기</Button>
           <div className="flex items-center justify-around">
             <div className="text-xs">아직 회원이 아니신가요? </div>

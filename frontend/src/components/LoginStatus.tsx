@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { useAtom } from "jotai";
-import { userAtom } from "@/atoms/userAtom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,16 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import useUser from "@/hooks/useUser";
 
 const LoginStatus: React.FC = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const { user, setUser, isLoggedIn } = useUser();
 
   const onLogout = () => {
-    setUser({ email: null, token: null });
+    setUser(null);
     localStorage.removeItem("token");
   };
 
-  if (!user.token) {
+  if (!isLoggedIn) {
     return (
       <div className="flex justify-center items-center gap-2">
         <Link href="/login">
@@ -38,21 +37,19 @@ const LoginStatus: React.FC = () => {
     <div className="flex items-center">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar className="mx-2">
-            <AvatarFallback>
-              {user.email ? user.email[0].toUpperCase() : "U"}
-            </AvatarFallback>
+          <Avatar>
+            <AvatarFallback>{user?.email ? user.email[0].toUpperCase() : "U"}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onSelect={() => console.log("Profile selected")}>
-            Profile
-          </DropdownMenuItem>
+          <Link href="/myinfo">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={onLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {user.email}
+      <div className="ml-3">{user?.email}</div>
     </div>
   );
 };
