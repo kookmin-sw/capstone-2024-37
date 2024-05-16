@@ -73,8 +73,8 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
               <TypeAnimation sequence={[chat.answer, () => setShowThumb(true)]} />
               {showThumb && (
                 <div className="mt-2.5 flex gap-2 items-center">
-                  <ThumbsUpIcon size={14} />
-                  <ThumbsDownIcon size={14} />
+                  <ThumbsUpIcon className="cursor-pointer hover:opacity-50" size={14} />
+                  <ThumbsDownIcon className="cursor-pointer hover:opacity-50" size={14} />
                 </div>
               )}
             </div>
