@@ -75,7 +75,6 @@ async def add_db_data(custom_data: AddDataDTO):
 
     if custom_data.data_type == "keyword":
         word_list = [custom_data.data.strip() for word in custom_data.data.split(',')]
-        docs = []
         for word in word_list:
             keyword_url = KEYWORD_BASE_URL + word
             loader = WebBaseLoader(keyword_url)
@@ -83,7 +82,7 @@ async def add_db_data(custom_data: AddDataDTO):
             chromadb_input_data(collection, docs)
     else:
         chromadb_input_data(collection, docs)
-    
+
     if custom_data.data_type == "pdf":
         os.remove(filename)
 
