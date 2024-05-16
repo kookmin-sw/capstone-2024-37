@@ -14,7 +14,7 @@ class Setting(BaseSettings):
     MONGO_DB_URI: str = os.getenv("MONGO_DB_URI")
     JWT_SECRET: str = os.getenv("JWT_SECRET")
     ALGORITHM: str = "HS256"
-    JWT_TOKEN_EXPIRE_MINUTES: int = 60
+    JWT_TOKEN_EXPIRE_MINUTES: int = 43200
     UPLOAD_DIR: str = os.getenv("UPLOAD_PATH")
 
 
