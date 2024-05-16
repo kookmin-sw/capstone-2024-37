@@ -72,7 +72,7 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
               <div className="font-bold text-xl">췍봇:</div>
               <TypeAnimation sequence={[chat.answer, () => setShowThumb(true)]} />
               {showThumb && (
-                <div className="mt-2 flex gap-2 items-center">
+                <div className="mt-2.5 flex gap-2 items-center">
                   <ThumbsUpIcon size={14} />
                   <ThumbsDownIcon size={14} />
                 </div>
