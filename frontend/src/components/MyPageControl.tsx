@@ -1,11 +1,10 @@
 "use client";
 
-import { userAtom } from "@/atoms/userAtom";
-import { useAtom } from "jotai";
+import useUser from "@/hooks/useUser";
 import Link from "next/link";
 
 const MyPageControl = () => {
-  const [user] = useAtom(userAtom);
+  const { user } = useUser();
 
   if (!user) {
     return null;

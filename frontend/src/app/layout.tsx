@@ -10,6 +10,7 @@ import { useState } from "react";
 import LoginStatus from "@/components/LoginStatus";
 import MyPageControl from "@/components/MyPageControl";
 import { Toaster } from "@/components/ui/toaster";
+import { DialogPortal } from "@/components/ui/dialog";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
