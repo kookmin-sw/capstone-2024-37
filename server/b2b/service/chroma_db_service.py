@@ -54,8 +54,7 @@ async def search_db_query(query, collection_name):
     )
     return result
 
-# description: DB에 저장하는 함수
-async def add_db_data(custom_data: AddDataDTO):
+async def add_db_data_pdf(custom_data: AddDataDTO):
     client_id = await get_clientid_in_jwt(custom_data.jwt_token)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
 
@@ -65,26 +64,49 @@ async def add_db_data(custom_data: AddDataDTO):
         metadata={"hnsw:space": "cosine"}
     )
 
-    if custom_data.data_type == "url" :
-        loader = WebBaseLoader(custom_data.data)
-        docs = loader.load_and_split(text_splitter)
-    elif custom_data.data_type == "pdf":
-        filename = os.path.join(setting.UPLOAD_DIR, custom_data.data)
-        loader = PyPDFLoader(filename)
-        docs = loader.load_and_split(text_splitter)
+    filename = os.path.join(setting.UPLOAD_DIR, custom_data.data)
+    loader = PyPDFLoader(filename)
+    docs = loader.load_and_split(text_splitter)
 
-    if custom_data.data_type == "keyword":
-        word_list = [custom_data.data.strip() for word in custom_data.data.split(',')]
-        for word in word_list:
-            keyword_url = KEYWORD_BASE_URL + word
-            loader = WebBaseLoader(keyword_url)
-            docs = loader.load_and_split(text_splitter)
-            chromadb_input_data(collection, docs)
-    else:
+    chromadb_input_data(collection, docs)
+
+    os.remove(filename)
+
+    return True
+
+async def add_db_data_url(custom_data: AddDataDTO):
+    client_id = await get_clientid_in_jwt(custom_data.jwt_token)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
+
+    collection = chroma_client.get_or_create_collection(
+        name=client_id,
+        embedding_function=sentence_transformer_ef,
+        metadata={"hnsw:space": "cosine"}
+    )
+
+    loader = WebBaseLoader(custom_data.data)
+    docs = loader.load_and_split(text_splitter)
+
+    chromadb_input_data(collection, docs)
+
+    return True
+
+async def add_db_data_keyword(custom_data: AddDataDTO):
+    client_id = await get_clientid_in_jwt(custom_data.jwt_token)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 0)
+
+    collection = chroma_client.get_or_create_collection(
+        name=client_id,
+        embedding_function=sentence_transformer_ef,
+        metadata={"hnsw:space": "cosine"}
+    )
+
+    word_list = [custom_data.data.strip() for word in custom_data.data.split(',')]
+    for word in word_list:
+        keyword_url = KEYWORD_BASE_URL + word
+        loader = WebBaseLoader(keyword_url)
+        docs = loader.load_and_split(text_splitter)
         chromadb_input_data(collection, docs)
-
-    if custom_data.data_type == "pdf":
-        os.remove(filename)
 
     return True
 
