@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { API_SERVER } from "@/config";
 import useUser from "@/hooks/useUser";
+import { sleep } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 
@@ -31,6 +32,10 @@ const AddFileInput = () => {
         const filename = (await resUpload.json()).filename;
         const res = await fetch(`${API_SERVER}/chromadb/add-data-pdf`, {
           method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             jwt_token: user?.token,
             data_type: "pdf",
