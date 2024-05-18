@@ -45,7 +45,7 @@ The goal of this project is to implement a chatbot that can be easily configured
 <br/>
 
 ## 💻 시스템 구성도
-![프로젝트 구성도](image.png)
+![프로젝트 구성도](static/images/image.png)
 
 ### 📹 소개 영상
 <링크 첨부 예정>
@@ -115,16 +115,16 @@ localhost:3000
 ### 기업에 제작한 췍봇 적용 방법
 
 ### 1. client id 가져오기
-![profile](image-1.png)
+![profile](static/images/image-1.png)
 
 - profile 클릭
 
-![alt text](image-2.png)
+![alt text](static/images/image-2.png)
 
 - 노란색으로 밑줄친 부분의 본인 client id 복사
 - 사용법 바로가기 클릭
 
-![alt text](image-3.png)
+![alt text](static/images/image-3.png)
 
 - 사용법에 적혀있는 대로 실행
   - 패키지 설치
