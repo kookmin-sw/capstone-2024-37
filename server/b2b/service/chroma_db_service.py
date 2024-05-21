@@ -122,8 +122,9 @@ async def search_db_query(query, collection_name):
 
     result = collection.query(
         query_texts=query,
-        n_results=5
+        n_results=3
     )
+    return result
 
 async def add_db_data_pdf(custom_data: AddDataDTO):
     client_id = await get_clientid_in_jwt(custom_data.jwt_token)
