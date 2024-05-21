@@ -106,11 +106,11 @@ async def search_db_query_by_chain(query, name):
     agent_executor = AgentExecutor(
     agent=agent,
     tools=tools,
-    verbose=True,
+    # verbose=True,
     return_intermediate_steps=True,
     )
 
-    result = agent_executor({"input": query})
+    result = agent_executor({"input": query + " 데이터가 없다면 없다고 말해"})
     return result["output"]
 
 async def search_db_query(query, collection_name):
