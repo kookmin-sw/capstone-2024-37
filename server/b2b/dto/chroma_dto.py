@@ -5,3 +5,6 @@ class AddDataDTO(BaseModel):
     jwt_token: str
     data: str
     data_type: str
+
+class ResetDataDTO(BaseModel):
+    jwt_token: str
