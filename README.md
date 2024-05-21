@@ -34,9 +34,24 @@ The goal of this project is to implement a chatbot that can be easily configured
 - 간단한 키워드, pdf정보로 챗봇을 제작할 수 있습니다.
 - 챗봇을 생성하고 자신의 서비스, 웹 사이트에 넣을 수 있습니다.
 
+### 🚢 기대효과
+
+1️⃣ 기업에 맞는 챗봇 쉽게 생성
+
+2️⃣ 인력, 서버 등 추가 비용 없이 간편 제작
+
+3️⃣ 기업형 챗봇 제작 시간 감소
+
 <br/>
 
-# Who we are?
+## 💻 시스템 구성도
+![프로젝트 구성도](static/images/image.png)
+
+### 📹 소개 영상
+<링크 첨부 예정>
+
+
+## 👋 Who we are?
 
 ### 고강현
 
@@ -60,4 +75,57 @@ The goal of this project is to implement a chatbot that can be easily configured
 
 - student ID: \*\*\*\*1568
 - E-mail: godong9985@gmail.com
-- Role: AI / Backend
+- Role: AI / Frontend
+
+## ✏️ How to use?
+
+### local setting 방법
+
+### 1. git clone
+
+```shell
+git clone https://github.com/kookmin-sw/capstone-2024-37.git
+```
+
+### 2. .env setting
+```shell
+cd capstone-2024-37/server/b2b
+```
+위 경로에 .env파일을 생성한다.
+
+### 3. server start
+```shell
+cd capstone-2024-37/server
+docker build -t {image name} .
+docker run --name {image name} -d --rm -p 9000:9000 {container name}
+```
+
+### 4. client start
+```shell
+cd capstone-2024-37/server
+yarn install
+yarn start or yarn starts
+```
+
+### 5. 접속 및 사용 
+```
+localhost:3000
+```
+
+### 기업에 제작한 췍봇 적용 방법
+
+### 1. client id 가져오기
+![profile](static/images/image-1.png)
+
+- profile 클릭
+
+![alt text](static/images/image-2.png)
+
+- 노란색으로 밑줄친 부분의 본인 client id 복사
+- 사용법 바로가기 클릭
+
+![alt text](static/images/image-3.png)
+
+- 사용법에 적혀있는 대로 실행
+  - 패키지 설치
+  - 코드 복사 붙여넣기

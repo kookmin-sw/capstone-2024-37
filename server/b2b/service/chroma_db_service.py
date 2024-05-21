@@ -1,4 +1,6 @@
 # VECTOR DB
+import asyncio
+import configparser
 import chromadb
 from langchain_community.vectorstores import Chroma
 from chromadb.utils import embedding_functions
@@ -12,9 +14,14 @@ from langchain.prompts import MessagesPlaceholder
 from langchain_community.chat_models import ChatOpenAI
 from langchain.agents import AgentExecutor
 from langchain_community.document_loaders import PyPDFLoader
+from langchain.prompts import MessagesPlaceholder
+from langchain.agents import AgentExecutor
 from langchain.agents.openai_functions_agent.agent_token_buffer_memory import (
         AgentTokenBufferMemory,
     )
+from langchain_community.embeddings.sentence_transformer import (
+    SentenceTransformerEmbeddings,
+)
 
 # FAST API
 from fastapi import Depends
@@ -30,17 +37,82 @@ from b2b.service.user_service import get_clientid_in_jwt
 from b2b.setting import setting
 
 load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 CHROMA_DB_IP_ADDRESS = os.getenv("CHROMA_DB_IP_ADDRESS")
 KEYWORD_BASE_URL = os.getenv("KEYWORD_BASE_URL")
+
+CONFIG_FILE_PATH = "b2b/util/openai_config.ini"
+config = configparser.ConfigParser()
+config.read(CONFIG_FILE_PATH)
 
 # description: 원격 EC2 인스턴스에서 ChromaDB에 연결
 chroma_client = chromadb.HttpClient(host=CHROMA_DB_IP_ADDRESS, port=8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
 sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
+stf_embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
 def check_db_heartbeat():
     chroma_client.heartbeat()
 
 # description: DB에서 검색하는 함수
+async def search_db_query_by_chain(query, collection_name):
+    config_normal = config['BOT_NORMAL']
+
+    langchain_chroma = Chroma(
+        # PersistentClient를 전달합니다.
+        client=chroma_client,
+        # 사용할 컬렉션의 이름을 지정합니다.
+        collection_name=collection_name,
+        # 임베딩 함수를 전달합니다.
+        embedding_function=stf_embeddings,
+    )
+
+    retriever = langchain_chroma.as_retriever() # 리트리버 초기화
+    llm = ChatOpenAI(temperature=config_normal['TEMPERATURE'],  # 창의성 (0.0 ~ 2.0)
+                            max_tokens=config_normal['MAX_TOKENS'],  # 최대 토큰수
+                            model_name=config_normal['MODEL_NAME'],  # 모델명
+                            openai_api_key=OPENAI_API_KEY
+                            )
+
+    tool = create_retriever_tool(
+        retriever,
+        "cusomter_service",
+        "Searches and returns documents regarding the customer service guide.",
+    )
+
+    tools = [tool]
+
+    system_message = SystemMessage(
+        content=(
+            "You are a nice customer service agent."
+            "Do your best to answer the questions."
+            "Feel free to use any tools available to look up "
+            "You provide a service that provides answers to questions"
+            "relevant information, only if necessary"
+            # 할루시네이션.
+            "If you don't know the answer, just say that you don't know. Don't try to make up an answer."
+            # 한국어
+            "Make sure to answer in Korean."
+        )
+    )
+
+    prompt = OpenAIFunctionsAgent.create_prompt(
+        system_message=system_message,
+    )
+
+    # 위에서 만든 llm, tools, prompt를 바탕으로 에이전트 만들어주기 
+    agent = OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt)
+
+
+    agent_executor = AgentExecutor(
+    agent=agent,
+    tools=tools,
+    verbose=True,
+    return_intermediate_steps=True,
+    )
+
+    result = agent_executor({"input": query})
+    return result["output"]
+
 async def search_db_query(query, collection_name):
     collection = chroma_client.get_or_create_collection(
         name=collection_name,
@@ -52,7 +124,6 @@ async def search_db_query(query, collection_name):
         query_texts=query,
         n_results=5
     )
-    return result
 
 async def add_db_data_pdf(custom_data: AddDataDTO):
     client_id = await get_clientid_in_jwt(custom_data.jwt_token)

@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import StreamingResponse
 from langchain_community.chat_models import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from datetime import datetime
@@ -46,3 +47,14 @@ async def get_langchain_rag(data: PromptRequest):
     response = chat_model.predict(prompt.format(output_language="Korean", question=question, data=db_data))
     # print(response)
     return response
+
+@chat_router.post("/chatbot-chain") 
+async def get_langchain_rag(data: PromptRequest):
+    question = data.message
+    collection = data.client_id
+
+    result = await vectordb.search_db_query_by_chain(question, collection)
+
+    return result
+
+    
