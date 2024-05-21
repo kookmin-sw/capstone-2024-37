@@ -45,7 +45,7 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
           message: trimmedQuestion,
         }),
       });
-      const data = await res.text();
+      const data = (await res.json()).message;
       setChat({
         question: inputQuestion,
         answer: data,
