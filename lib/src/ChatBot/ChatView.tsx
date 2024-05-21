@@ -34,7 +34,7 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
       question: trimmedQuestion,
     });
     try {
-      const res = await fetch(`${API_SERVER}/chat/chatbot-chain`, {
+      const res = await fetch(`${API_SERVER}/chat/chatbot`, {
         method: "POST",
         headers: {
           Accept: "application/json",
