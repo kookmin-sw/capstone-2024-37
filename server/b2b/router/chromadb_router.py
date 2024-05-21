@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 
 from b2b.dto.chroma_dto import AddDataDTO
 from b2b.service.chroma_db_service import *
+from b2b.dto.chroma_dto import ResetDataDTO
 
 chromadb_router = APIRouter(
     prefix="/chromadb",
@@ -32,5 +33,14 @@ async def add_chroma_db_data_keyword(data: AddDataDTO, chroma_client=Depends(get
     try:
         await add_db_data_keyword(data)
         return {"message": "Added keyword successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@chromadb_router.post("/reset-data")
+async def reset_chroma_db_data(data: ResetDataDTO):
+    collection = data.client_id
+    try:
+        await chromadb_reset_data(collection)
+        return {"message": "reset successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

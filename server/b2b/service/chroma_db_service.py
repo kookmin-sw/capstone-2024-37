@@ -54,14 +54,14 @@ def check_db_heartbeat():
     chroma_client.heartbeat()
 
 # description: DB에서 검색하는 함수
-async def search_db_query_by_chain(query, collection_name):
+async def search_db_query_by_chain(query, name):
     config_normal = config['BOT_NORMAL']
 
     langchain_chroma = Chroma(
         # PersistentClient를 전달합니다.
         client=chroma_client,
         # 사용할 컬렉션의 이름을 지정합니다.
-        collection_name=collection_name,
+        collection_name=name,
         # 임베딩 함수를 전달합니다.
         embedding_function=stf_embeddings,
     )
@@ -191,6 +191,9 @@ def chromadb_input_data(collection, docs):
             metadatas=doc.metadata,
             documents=doc.page_content,
         )
+
+def chromadb_reset_data(collection):
+    chroma_client.delete_collection(name=collection)
 
 def get_chroma_client():
     return chroma_client
