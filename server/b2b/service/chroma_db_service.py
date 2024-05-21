@@ -193,8 +193,9 @@ def chromadb_input_data(collection, docs):
             documents=doc.page_content,
         )
 
-def chromadb_reset_data(collection):
-    chroma_client.delete_collection(name=collection)
+async def chromadb_reset_data(data):
+    client_id = await get_clientid_in_jwt(data.jwt_token)
+    chroma_client.delete_collection(name=client_id)
 
 def get_chroma_client():
     return chroma_client

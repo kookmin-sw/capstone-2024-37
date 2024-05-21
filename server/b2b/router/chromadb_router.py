@@ -38,9 +38,8 @@ async def add_chroma_db_data_keyword(data: AddDataDTO, chroma_client=Depends(get
     
 @chromadb_router.post("/reset-data")
 async def reset_chroma_db_data(data: ResetDataDTO):
-    collection = data.client_id
     try:
-        await chromadb_reset_data(collection)
+        await chromadb_reset_data(data)
         return {"message": "reset successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
