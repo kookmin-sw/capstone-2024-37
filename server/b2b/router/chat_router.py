@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import StreamingResponse
 from langchain_community.chat_models import ChatOpenAI
-from langchain_core.prompts import PromptTemplate
+
 from datetime import datetime
 
 from b2b.dto.openai_dto import PromptRequest
@@ -29,32 +29,14 @@ config.read(CONFIG_FILE_PATH)
 
 @chat_router.post("/chatbot") 
 async def get_langchain_rag(data: PromptRequest):
-    config_normal = config['BOT_NORMAL']
+    result = await vectordb.search_db_query(data.message, data.client_id)
 
-    chat_model = ChatOpenAI(temperature=config_normal['TEMPERATURE'],  # 창의성 (0.0 ~ 2.0)
-                            max_tokens=config_normal['MAX_TOKENS'],  # 최대 토큰수
-                            model_name=config_normal['MODEL_NAME'],  # 모델명
-                            openai_api_key=OPENAI_API_KEY  # API 키
-                            )
-    question = data.message
-    collection = data.client_id
-
-    db_data = await vectordb.search_db_query(question, collection)  # vector db에서 검색
-
-    standard_template = openai_prompt.Template.standard_template
-
-    prompt = PromptTemplate.from_template(standard_template)
-    response = chat_model.predict(prompt.format(output_language="Korean", question=question, data=db_data))
-    # print(response)
-    return response
+    return {"message": result[1:-1]}
 
 @chat_router.post("/chatbot-chain") 
 async def get_langchain_rag(data: PromptRequest):
-    question = data.message
-    collection = data.client_id
+    result = await vectordb.search_db_query_by_chain(data.message, data.client_id)
 
-    result = await vectordb.search_db_query_by_chain(question, collection)
-
-    return result
+    return {"message": result}
 
     
