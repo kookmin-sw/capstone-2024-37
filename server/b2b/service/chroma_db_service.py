@@ -14,8 +14,7 @@ from langchain.prompts import MessagesPlaceholder
 from langchain_community.chat_models import ChatOpenAI
 from langchain.agents import AgentExecutor
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.prompts import MessagesPlaceholder
-from langchain.agents import AgentExecutor
+from langchain_core.prompts import PromptTemplate
 from langchain.agents.openai_functions_agent.agent_token_buffer_memory import (
         AgentTokenBufferMemory,
     )
@@ -35,6 +34,7 @@ from dotenv import load_dotenv
 from b2b.dto.chroma_dto import AddDataDTO
 from b2b.service.user_service import get_clientid_in_jwt
 from b2b.setting import setting
+from b2b.util import openai_prompt
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -110,10 +110,18 @@ async def search_db_query_by_chain(query, name):
     return_intermediate_steps=True,
     )
 
-    result = agent_executor({"input": query + " 데이터가 없다면 없다고 말해"})
+    result = agent_executor({"input": query})
     return result["output"]
 
 async def search_db_query(query, collection_name):
+    config_normal = config['BOT_NORMAL']
+
+    chat_model = ChatOpenAI(temperature=config_normal['TEMPERATURE'],  # 창의성 (0.0 ~ 2.0)
+                            max_tokens=config_normal['MAX_TOKENS'],  # 최대 토큰수
+                            model_name=config_normal['MODEL_NAME'],  # 모델명
+                            openai_api_key=OPENAI_API_KEY  # API 키
+                            )
+    
     collection = chroma_client.get_or_create_collection(
         name=collection_name,
         embedding_function=sentence_transformer_ef,
@@ -123,7 +131,12 @@ async def search_db_query(query, collection_name):
     result = collection.query(
         query_texts=query,
         n_results=3
-    )
+    )  # vector db에서 검색
+
+    standard_template = openai_prompt.Template.standard_template
+
+    prompt = PromptTemplate.from_template(standard_template)
+    result = chat_model.predict(prompt.format(question=query, data=result))
     return result
 
 async def add_db_data_pdf(custom_data: AddDataDTO):
