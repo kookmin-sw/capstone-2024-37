@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="static/logo.png" width="300"></a>
+  <img src="static/logo.png" width="300">
   <br>
   췍봇(CheckBot)
   <br>
