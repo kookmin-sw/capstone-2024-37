@@ -45,11 +45,10 @@ const ChatView: React.FC<ChatViewProps> = ({ clientId }) => {
           message: trimmedQuestion,
         }),
       });
-      const data = await res.text();
-      const normalizedData = data.slice(3, -3);
+      const data = (await res.json()).message;
       setChat({
         question: inputQuestion,
-        answer: normalizedData,
+        answer: data,
       });
     } catch (e) {
       console.error(e);

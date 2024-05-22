@@ -2,15 +2,12 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Providers from "./Provider";
 import Link from "next/link";
 import WrappedChatBot from "./WrappedChatBot";
-import { useState } from "react";
 import LoginStatus from "@/components/LoginStatus";
 import MyPageControl from "@/components/MyPageControl";
 import { Toaster } from "@/components/ui/toaster";
-import { DialogPortal } from "@/components/ui/dialog";
 
 const notoSans = Noto_Sans_KR({ subsets: ["latin"] });
 
