@@ -48,7 +48,7 @@ The goal of this project is to implement a chatbot that can be easily configured
 ![프로젝트 구성도](static/images/image.png)
 
 ### 📹 소개 영상
-<링크 첨부 예정>
+[![Video Label](https://img.youtube.com/vi/kDxBiVCF_AE/sddefault.jpg)](https://www.youtube.com/watch?v=kDxBiVCF_AE)
 
 
 ## 👋 Who we are?
